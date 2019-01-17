@@ -37,6 +37,71 @@ int main()
 
     return 0;
 }
+void merge_sort(int* arr, int size)
+{
+    int * left, *right; // pointer to left aand right arrays
+    int mid=0;// a variable to store middle number of arrays
+    
+    mid=size/2;
+    
+    left=(int*)malloc(mid*sizeof(int));// create left array 
+    right=(int*) malloc((size-mid)*sizeof(int));// create right array
+    
+    int i=0;
+    for(i = 0;i<mid;i++){ 
+        left[i] = arr[i];
+        
+    } // creating left subarray
+	for(i = mid;i<size;i++) {
+	    right[i-mid] = arr[i];
+	    
+	} // creating right subarray
+
+	merge_sort(left,mid);  // sorting the left subarray
+	merge_sort(right,size-mid);  // sorting the right subarray
+	merge(left,right,arr,mid,size-mid);  // Merging L and R into A as sorted list.
+        free(left);
+        free(right);
+}
+
+// a function to merge two arrays
+void merge(int left[],int right[],int arr[], int leftcount, int rightcount)
+{
+    int i=0;// index for left array 
+    int j=0;// iondex for right array
+    int k=0;// index for original array
+    
+    while(i<leftcount && j<rightcount)
+    {
+        if(right[i]>left[j])
+        {
+            arr[k]=left[j];
+            j++;
+            k++;
+        }else
+        {
+           arr[k]=right[i];
+            i++;
+            k++;
+        }
+    }
+    
+    // if one of the array run out of the elements ealier than the other
+    while(i<leftcount)
+    {
+        arr[k]=right[i];
+        i++;
+        k++;
+    }
+    while(j<rightcount)
+    {
+        arr[k]=right[j];
+        j++;
+        k++;
+    }
+}
+
+
 // insertion sort 
 void insertion_sort(int arr[], int size)
 {
